@@ -1,5 +1,3 @@
 class NotesApp
 
-  constructor: ->
-
-window.NotesApp = NotesApp
+module.exports = NotesApp
