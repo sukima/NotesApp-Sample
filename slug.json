@@ -2,5 +2,7 @@
   "public": "./test/public",
   "paths": ["./src"],
   "dependencies": [],
-  "libs": []
+  "libs": [
+    "./lib/jquery.js"
+  ]
 }
