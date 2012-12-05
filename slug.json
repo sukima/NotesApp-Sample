@@ -3,6 +3,7 @@
   "paths": ["./src"],
   "dependencies": [],
   "libs": [
-    "./lib/jquery.js"
+    "./lib/jquery.js",
+    "./lib/jstorage.js"
   ]
 }
