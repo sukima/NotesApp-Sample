@@ -9,7 +9,7 @@ class NoteModel
     @updated_at = @created_on
     @id = "#{@created_on}#{getRandomInt(0,100)}"
     NoteModel.data_store.push @
-    NoteModel.reindex()
+    NoteModel.indexes[@id] = NoteModel.data_store.length - 1
   save: ->
     @updated_at = new Date()
     NoteModel.saveAll()
