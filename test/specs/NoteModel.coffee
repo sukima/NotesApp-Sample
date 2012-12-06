@@ -19,6 +19,12 @@ describe "NoteModel", ->
     it "should return an array", ->
       expect( Note.loadAll() instanceof Array ).toBeTruthy()
 
+  describe "findAll", ->
+    it "should be defined", ->
+      expect( Note.findAll ).toBeDefined()
+    it "should return an array", ->
+      expect( Note.findAll() instanceof Array ).toBeTruthy()
+
   describe "find", ->
     beforeEach -> @note = new Note { title: "test-title" }
     it "should be defined", ->
@@ -26,6 +32,7 @@ describe "NoteModel", ->
     it "should return a note from the data_store", ->
       test_note = Note.find @note.id
       expect( test_note.title ).toBe "test-title"
+    it "should allow an 'all' argument"
 
   describe "save", ->
     beforeEach -> @note = new Note

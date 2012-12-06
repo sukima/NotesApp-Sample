@@ -42,7 +42,10 @@ class NoteModel
     @indexes[note.id] = index for note, index in @data_store
     @indexes
 
-  @find: (id) => @data_store[@indexes[id]]
+  @findAll: => @data_store
+
+  @find: (id) =>
+    id.toLowerCase() is "all" ? @findAll() : @data_store[@indexes[id]]
 
   @destroyNote: (id) =>
     index = @indexes[id]
