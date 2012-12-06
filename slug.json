@@ -4,6 +4,7 @@
   "dependencies": [],
   "libs": [
     "./lib/jquery.js",
+    "./lib/jquery.mobile.js",
     "./lib/jstorage.js"
   ]
 }
