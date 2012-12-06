@@ -13,13 +13,7 @@ class NoteModel
   save: ->
     @updated_at = new Date()
     NoteModel.saveAll()
-  destroy: ->
-    index = NoteModel.indexes[@id]
-    return unless index >= 0 and index < NoteModel.count()
-    ret = NoteModel.data_store.splice index, 1
-    NoteModel.saveAll()
-    NoteModel.reindex()
-    ret
+  destroy: -> NoteModel.destroyNote @id
 
   # Static methods
   @STORAGE_NAMESPACE: "NotesApp.Data"
@@ -49,5 +43,13 @@ class NoteModel
     @indexes
 
   @find: (id) => @data_store[@indexes[id]]
+
+  @destroyNote: (id) =>
+    index = @indexes[id]
+    return unless index >= 0 and index < @count()
+    ret = @data_store.splice index, 1
+    @saveAll()
+    @reindex()
+    ret
 
 module.exports = NoteModel
