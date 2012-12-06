@@ -10,16 +10,40 @@ describe "NoteModel", ->
     expect( Note.data_store ).toBeDefined()
     expect( Note.data_store instanceof Array ).toBeTruthy()
 
+  it "should define a count", ->
+    expect( Note.count ).toBeDefined()
+
   describe "loadAll", ->
     it "should be defined", ->
       expect( Note.loadAll ).toBeDefined()
     it "should return an array", ->
       expect( Note.loadAll() instanceof Array ).toBeTruthy()
 
+  describe "find", ->
+    beforeEach -> @note = new Note { title: "test-title" }
+    it "should be defined", ->
+      expect( Note.find ).toBeDefined()
+    it "should return a note from the data_store", ->
+      test_note = Note.find @note.id
+      expect( test_note.title ).toBe "test-title"
+
   describe "save", ->
     beforeEach -> @note = new Note
     it "should be defined", ->
       expect( @note.save ).toBeDefined()
+
+  describe "destroy", ->
+    beforeEach -> @note = new Note
+    it "should be defined", ->
+      expect( @note.destroy ).toBeDefined()
+    it "should remove the note", ->
+      a = Note.count()
+      @note.destroy()
+      expect( Note.count() ).toBe (a - 1)
+    it "should reindex", ->
+      id = @note.id
+      @note.destroy()
+      expect( Note.indexes[id] ).not.toBeDefined()
 
   describe "constructor", ->
     it "should add to master list", ->
@@ -44,3 +68,7 @@ describe "NoteModel", ->
       expect( b.narrative ).toBe "b-bar"
       expect( c.title ).toBe "c-title-foo"
       expect( c.narrative ).toBe "c-nar-foo"
+    it "should reindex", ->
+      Note.indexes = {}
+      note = new Note
+      expect( Note.indexes[note.id] ).toBeDefined()
