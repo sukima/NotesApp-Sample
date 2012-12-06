@@ -1,5 +1,5 @@
 {
-  "public": "./test/public",
+  "public": "./public",
   "paths": ["./src"],
   "dependencies": [],
   "libs": [
