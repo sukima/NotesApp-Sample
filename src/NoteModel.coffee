@@ -9,6 +9,7 @@ class NoteModel
     @updated_at = @created_on
     @id = "#{@created_on}#{getRandomInt(0,100)}"
     NoteModel.data_store.push @
+    NoteModel.reindex()
   save: ->
     @updated_at = new Date()
     NoteModel.saveAll()
@@ -46,5 +47,7 @@ class NoteModel
     @indexes = {}
     @indexes[note.id] = index for note, index in @data_store
     @indexes
+
+  @find: (id) => @data_store[@indexes[id]]
 
 module.exports = NoteModel
