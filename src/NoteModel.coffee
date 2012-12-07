@@ -7,7 +7,7 @@ class NoteModel
     @narrative = options.narrative or ""
     @created_on = new Date()
     @updated_at = @created_on
-    @id = "#{@created_on}#{getRandomInt(0,100)}"
+    @id = "#{@created_on.getTime()}#{getRandomInt(0,100)}"
     @isNew = true
   save: ->
     @updated_at = new Date()
