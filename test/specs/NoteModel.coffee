@@ -1,97 +1,116 @@
 require = window.require
 
 describe "NoteModel", ->
-  Note = require "NoteModel"
+  NoteModel = require "NoteModel"
 
   beforeEach ->
-    Note.STORAGE_NAMESPACE = "NotesApp.TestData"
-    Note.async = false
+    NoteModel.STORAGE_NAMESPACE = "NotesApp.TestData"
+    NoteModel.async = false
 
   afterEach ->
-    Note.clearAll()
+    NoteModel.clearAll()
 
   it "should define a localStorage namespace", ->
-    expect( Note.STORAGE_NAMESPACE ).toBeDefined()
+    expect( NoteModel.STORAGE_NAMESPACE ).toBeDefined()
 
   it "should define a count", ->
-    expect( Note.count ).toBeDefined()
+    expect( NoteModel.count ).toBeDefined()
+
+  describe "saveAll", ->
+    it "should be defined", ->
+      expect( NoteModel.saveAll ).toBeDefined()
 
   describe "loadAll", ->
     it "should be defined", ->
-      expect( Note.loadAll ).toBeDefined()
+      expect( NoteModel.loadAll ).toBeDefined()
+    it "should retore data as NoteModel objects", ->
+      note = new NoteModel title: "test-restore", narrative: "test"
+      id = note.id
+      note.save()
+      NoteModel.loadAll()
+      newNote = NoteModel.find id
+      expect( newNote ).toBeDefined()
+      expect( newNote instanceof NoteModel ).toBeTruthy()
 
   describe "findAll", ->
     it "should be defined", ->
-      expect( Note.findAll ).toBeDefined()
+      expect( NoteModel.findAll ).toBeDefined()
     it "should return an array", ->
-      expect( Note.findAll() instanceof Array ).toBeTruthy()
+      expect( NoteModel.findAll() instanceof Array ).toBeTruthy()
 
   describe "find", ->
     beforeEach ->
-      @note = new Note { title: "test-title" }
+      @note = new NoteModel { title: "test-title" }
       @note.save()
     it "should be defined", ->
-      expect( Note.find ).toBeDefined()
+      expect( NoteModel.find ).toBeDefined()
     it "should return a note from the data_store", ->
-      test_note = Note.find @note.id
+      test_note = NoteModel.find @note.id
       expect( test_note.title ).toBe "test-title"
     it "should allow an 'all' argument"
 
   describe "save", ->
-    beforeEach -> @note = new Note
+    beforeEach -> @note = new NoteModel
     it "should be defined", ->
       expect( @note.save ).toBeDefined()
     it "should add to master list", ->
-      a = Note.data_store.length
+      a = NoteModel.data_store.length
       @note.save()
-      b = Note.data_store.length
+      b = NoteModel.data_store.length
       expect( b - a ).toBe 1
     it "should reindex", ->
-      Note.indexes = {}
+      NoteModel.indexes = {}
       @note.save()
-      expect( Note.indexes[@note.id] ).toBeDefined()
+      expect( NoteModel.indexes[@note.id] ).toBeDefined()
 
   describe "destroy", ->
-    beforeEach -> @note = new Note
+    beforeEach -> @note = new NoteModel
     it "should be defined", ->
       expect( @note.destroy ).toBeDefined()
     it "should remove the note", ->
       @note.save()
-      a = Note.count()
+      a = NoteModel.count()
       @note.destroy()
-      expect( Note.count() ).toBe (a - 1)
+      expect( NoteModel.count() ).toBe (a - 1)
     it "should ignore when not saved", ->
-      a = Note.count()
+      a = NoteModel.count()
       @note.destroy()
-      expect( Note.count() ).toBe (a)
+      expect( NoteModel.count() ).toBe (a)
     it "should reindex", ->
       @note.save()
       id = @note.id
       @note.destroy()
-      expect( Note.indexes[id] ).not.toBeDefined()
+      expect( NoteModel.indexes[id] ).not.toBeDefined()
 
   describe "constructor", ->
     it "should have sane defaults", ->
-      note = new Note
+      note = new NoteModel
       expect( note.title ).toBe ""
       expect( note.narrative ).toBe ""
     it "should create model properties", ->
-      note = new Note
+      note = new NoteModel
       expect( note.created_on ).toBeDefined()
       expect( note.updated_at ).toBeDefined()
       expect( note.id ).toBeDefined()
     it "should handle object assignment", ->
-      a = new Note title: "a-foo"
-      b = new Note narrative: "b-bar"
-      c = new Note title: "c-title-foo", narrative: "c-nar-foo"
-      expect( a.title ).toBe "a-foo"
-      expect( b.narrative ).toBe "b-bar"
-      expect( c.title ).toBe "c-title-foo"
-      expect( c.narrative ).toBe "c-nar-foo"
+      note = new NoteModel title: "a-foo"
+      test =
+        id: note.id
+        title: note.title
+        narrative: note.narrative
+        created_on: note.created_on
+        updated_at: note.updated_at
+      newNote = new NoteModel test
+      expect( newNote.id ).toBe test.id
+      expect( newNote.title ).toBe test.title
+      expect( newNote.narrative ).toBe test.narrative
+      expect( newNote.created_on.getTime() ).toBe test.created_on.getTime()
+      expect( newNote.updated_at.getTime() ).toBe test.updated_at.getTime()
+      expect( newNote.isNew ).not.toBeTruthy()
 
   describe "briefNarrative", ->
     beforeEach ->
-      @note = new Note narrative: "Lorem ipsum dolor sit amet, consectetur
+      @note = new NoteModel narrative: "Lorem ipsum dolor sit amet, consectetur
         adipiscing elit. Suspendisse quam lacus, mollis ut molestie nec,
         venenatis ut ligula. Vestibulum ante ipsum primis in faucibus orci
         luctus et ultrices posuere cubilia Curae; Cras enim eros, sagittis eu
