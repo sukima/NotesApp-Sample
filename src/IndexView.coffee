@@ -7,15 +7,23 @@ class IndexView extends View
     super
     @notes = Note.findAll()
   render: ->
+    console.log(@notes);
+    console.log(@notes[0]);
+    console.log(@notes[0].briefNarrative());
     super
     @element.children("ul").listview()
   template: """
-            <ul class="notes-index-list">
+            <ul class="notes-index-list" data-role="listview">
               {{#notes}}
-                <li>{{title}}</li>
+                <li>
+                  <a href="#note-narrative-page?noteId={{id}}">
+                    <div>{{title}}</div>
+                    <div class="list-item-narrative">{{briefNarrative}}</div>
+                  </a>
+                </li>
               {{/notes}}
             </ul>
-            {{^notes}}<div class="no-notes">Create a new note by clicking the <strong>new</strong> button.</div>{{/notes}}
+            {{^notes}}<div class="no-notes">Create a new note by clicking the <a href="#note-editor-page">new</a> button.</div>{{/notes}}
             """
 
 module.exports = IndexView

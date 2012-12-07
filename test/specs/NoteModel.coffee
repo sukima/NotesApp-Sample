@@ -23,6 +23,10 @@ describe "NoteModel", ->
   describe "loadAll", ->
     it "should be defined", ->
       expect( NoteModel.loadAll ).toBeDefined()
+    it "should correctly handle an empty localStorage", ->
+      NoteModel.loadAll()
+      expect( NoteModel.data_store ).toBeDefined()
+      expect( NoteModel.data_store.length ).toBe 0
     it "should retore data as NoteModel objects", ->
       note = new NoteModel title: "test-restore", narrative: "test"
       id = note.id
@@ -92,21 +96,24 @@ describe "NoteModel", ->
       expect( note.created_on ).toBeDefined()
       expect( note.updated_at ).toBeDefined()
       expect( note.id ).toBeDefined()
-    it "should handle object assignment", ->
-      note = new NoteModel title: "a-foo"
+    it "should handle reconstruction", ->
+      note = new NoteModel title: "reconstruction-test"
       test =
         id: note.id
         title: note.title
         narrative: note.narrative
         created_on: note.created_on
         updated_at: note.updated_at
-      newNote = new NoteModel test
+      newNote = new NoteModel test, true
       expect( newNote.id ).toBe test.id
       expect( newNote.title ).toBe test.title
       expect( newNote.narrative ).toBe test.narrative
       expect( newNote.created_on.getTime() ).toBe test.created_on.getTime()
       expect( newNote.updated_at.getTime() ).toBe test.updated_at.getTime()
       expect( newNote.isNew ).not.toBeTruthy()
+    it "throw an error with bad reconstruction", ->
+      shouldThrowError = -> new NoteModel {}, true
+      expect( shouldThrowError ).toThrow()
 
   describe "briefNarrative", ->
     beforeEach ->

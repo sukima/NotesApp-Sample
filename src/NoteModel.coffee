@@ -2,13 +2,20 @@ $ = jQuery
 {getRandomInt} = require "Utils"
 
 class NoteModel
-  constructor: (options = {}) ->
-    @title = options.title or ""
-    @narrative = options.narrative or ""
-    @created_on = new Date()
-    @updated_at = @created_on
-    @id = "#{@created_on.getTime()}#{getRandomInt(0,100)}"
-    @isNew = true
+  constructor: (options = {}, rebuild = false) ->
+    unless rebuild
+      @title = options.title or ""
+      @narrative = options.narrative or ""
+      @created_on = new Date()
+      @updated_at = @created_on
+      @id = "#{@created_on.getTime()}#{getRandomInt(0,100)}"
+      @isNew = true
+    else
+      unless options.id? and options.title? and options.narrative? and options.created_on? and options.updated_at?
+        throw "Incomplete data to reconstruct NoteModel."
+      @[key] = value for key, value of options
+      @isNew = false
+      
   save: ->
     @updated_at = new Date()
     if @isNew
@@ -53,7 +60,9 @@ class NoteModel
   @loadAll: (callback, async = @async) =>
     doLoad = =>
       list = $.jStorage.get @STORAGE_NAMESPACE
-      @data_store = list or []
+      @data_store = []
+      if list? and list.length > 0
+        @data_store.push(new @(data, true)) for data in list
       @reindex callback, async
     if async then setTimeout(doLoad, @async_timeing) else doLoad()
     return
