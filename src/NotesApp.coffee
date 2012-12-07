@@ -2,8 +2,14 @@ $ = jQuery
 NoteModel = require("NoteModel")
 IndexView = require("IndexView")
 
-page_ids =
-  "notes-list-page": IndexView
+page_views =
+  "notes-list-page":
+    class: IndexView
+    selector: "#notes-list-content"
+
+initPageViews = ->
+  page.view = new page.class(page.selector) for id, page of page_views
+  page_views
 
 class NotesApp
   constructor: ->
@@ -12,10 +18,12 @@ class NotesApp
 
   onPageChange: (event, data) ->
     pageID = data.toPage.attr('id')
-    switch pageID
-      when "notes-list-page" then console.log("todo")
+    view = page_views[pageID].view
+    view?.render()
+    true
 
   @init: =>
+    initPageViews()
     NoteModel.loadAll()
     @controller = new @
 
