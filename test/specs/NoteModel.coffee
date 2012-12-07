@@ -6,10 +6,6 @@ describe "NoteModel", ->
   it "should define a localStorage namespace", ->
     expect( Note.STORAGE_NAMESPACE ).toBeDefined()
 
-  it "should define data_store as an object", ->
-    expect( Note.data_store ).toBeDefined()
-    expect( Note.data_store instanceof Array ).toBeTruthy()
-
   it "should define a count", ->
     expect( Note.count ).toBeDefined()
 
@@ -26,7 +22,9 @@ describe "NoteModel", ->
       expect( Note.findAll() instanceof Array ).toBeTruthy()
 
   describe "find", ->
-    beforeEach -> @note = new Note { title: "test-title" }
+    beforeEach ->
+      @note = new Note { title: "test-title" }
+      @note.save()
     it "should be defined", ->
       expect( Note.find ).toBeDefined()
     it "should return a note from the data_store", ->
@@ -38,26 +36,36 @@ describe "NoteModel", ->
     beforeEach -> @note = new Note
     it "should be defined", ->
       expect( @note.save ).toBeDefined()
+    it "should add to master list", ->
+      a = Note.data_store.length
+      @note.save()
+      b = Note.data_store.length
+      expect( b - a ).toBe 1
+    it "should reindex", ->
+      Note.indexes = {}
+      @note.save()
+      expect( Note.indexes[@note.id] ).toBeDefined()
 
   describe "destroy", ->
     beforeEach -> @note = new Note
     it "should be defined", ->
       expect( @note.destroy ).toBeDefined()
     it "should remove the note", ->
+      @note.save()
       a = Note.count()
       @note.destroy()
       expect( Note.count() ).toBe (a - 1)
+    it "should ignore when not saved", ->
+      a = Note.count()
+      @note.destroy()
+      expect( Note.count() ).toBe (a)
     it "should reindex", ->
+      @note.save()
       id = @note.id
       @note.destroy()
       expect( Note.indexes[id] ).not.toBeDefined()
 
   describe "constructor", ->
-    it "should add to master list", ->
-      a = Note.data_store.length
-      note = new Note
-      b = Note.data_store.length
-      expect( b - a ).toBe 1
     it "should have sane defaults", ->
       note = new Note
       expect( note.title ).toBe ""
@@ -75,7 +83,3 @@ describe "NoteModel", ->
       expect( b.narrative ).toBe "b-bar"
       expect( c.title ).toBe "c-title-foo"
       expect( c.narrative ).toBe "c-nar-foo"
-    it "should reindex", ->
-      Note.indexes = {}
-      note = new Note
-      expect( Note.indexes[note.id] ).toBeDefined()

@@ -8,12 +8,17 @@ class NoteModel
     @created_on = new Date()
     @updated_at = @created_on
     @id = "#{@created_on}#{getRandomInt(0,100)}"
-    NoteModel.data_store.push @
-    NoteModel.indexes[@id] = NoteModel.data_store.length - 1
+    @isNew = true
   save: ->
     @updated_at = new Date()
+    if @isNew
+      @isNew = false
+      NoteModel.data_store.push @
+      NoteModel.indexes[@id] = NoteModel.data_store.length - 1
     NoteModel.saveAll()
-  destroy: -> NoteModel.destroyNote @id
+  destroy: ->
+    return if @isNew
+    NoteModel.destroyNote @id
 
   # Static methods
   @STORAGE_NAMESPACE: "NotesApp.Data"
@@ -50,7 +55,7 @@ class NoteModel
 
   @destroyNote: (id) =>
     index = @indexes[id]
-    return unless index >= 0 and index < @count()
+    return unless index? and index >= 0 and index < @count()
     ret = @data_store.splice index, 1
     @saveAll()
     @reindex()
