@@ -45,7 +45,8 @@ class NoteModel
   @findAll: => @data_store
 
   @find: (id) =>
-    id.toLowerCase() is "all" ? @findAll() : @data_store[@indexes[id]]
+    if id.toLowerCase() is "all" then @findAll()
+    else @data_store[@indexes[id]]
 
   @destroyNote: (id) =>
     index = @indexes[id]
