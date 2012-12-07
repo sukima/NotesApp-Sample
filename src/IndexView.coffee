@@ -1,9 +1,14 @@
 View = require("View")
+Note = require("NoteModel")
+$ = jQuery
 
 class IndexView extends View
+  constructor: ->
+    super
+    @notes = Note.findAll()
   render: ->
-    super()
-    @element.listview()
+    super
+    @element.children("ul").listview()
   template: """
             <ul>
               {{#notes}}
