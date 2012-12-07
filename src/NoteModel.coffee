@@ -19,6 +19,13 @@ class NoteModel
   destroy: ->
     return if @isNew
     NoteModel.destroyNote @id
+  briefNarrative: (size = 25) ->
+    return "" if size <= 0
+    return @narrative if size >= @narrative.length
+    size = size - 3 unless size <= 3
+    str = @narrative.substr 0, size
+    str = "#{str}..." if size > 3
+    str
 
   # Static methods
   @STORAGE_NAMESPACE: "NotesApp.Data"
