@@ -10,11 +10,12 @@ class IndexView extends View
     super
     @element.children("ul").listview()
   template: """
-            <ul>
+            <ul class="notes-index-list">
               {{#notes}}
-              <li>{{note.title}}</li>
+                <li>{{title}}</li>
               {{/notes}}
             </ul>
+            {{^notes}}<div class="no-notes">Create a new note by clicking the <strong>new</strong> button.</div>{{/notes}}
             """
 
 module.exports = IndexView
