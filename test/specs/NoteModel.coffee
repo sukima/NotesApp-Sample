@@ -1,7 +1,14 @@
-require = window.require;
+require = window.require
 
 describe "NoteModel", ->
   Note = require "NoteModel"
+
+  beforeEach ->
+    Note.STORAGE_NAMESPACE = "NotesApp.TestData"
+    Note.async = false
+
+  afterEach ->
+    Note.clearAll()
 
   it "should define a localStorage namespace", ->
     expect( Note.STORAGE_NAMESPACE ).toBeDefined()
@@ -12,8 +19,6 @@ describe "NoteModel", ->
   describe "loadAll", ->
     it "should be defined", ->
       expect( Note.loadAll ).toBeDefined()
-    it "should return an array", ->
-      expect( Note.loadAll() instanceof Array ).toBeTruthy()
 
   describe "findAll", ->
     it "should be defined", ->

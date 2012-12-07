@@ -24,28 +24,42 @@ class NoteModel
   @STORAGE_NAMESPACE: "NotesApp.Data"
   @data_store = []
   @indexes = {}
+  @async = true
+  @async_timeing = 10
 
-  @saveNow = (callback) => 
-    $.jStorage.set @STORAGE_NAMESPACE, @data_store
-    callback?()
-
-  @saveAll: (callback) =>
+  @saveAll: (callback, async = @async) =>
     # Deffer the saving. Make it lazy so the browser can choose when is best.
-    doSave = => @saveNow callback
-    setTimeout doSave, 5
+    doSave = =>
+      $.jStorage.set @STORAGE_NAMESPACE, @data_store
+      callback?(@data_store)
+    if async then setTimeout(doSave, @async_timeing) else doSave()
 
-  @loadAll: =>
-    list = $.jStorage.get @STORAGE_NAMESPACE
-    @data_store = list or []
-    @reindex()
-    @data_store
+  @clearAll: (callback, async = @async) =>
+    @data_store = []
+    @indexes = {}
+    doClear = =>
+      $.jStorage.deleteKey @STORAGE_NAMESPACE
+      callback?(true)
+    if async then setTimeout(doClear, @async_timeing) else doClear()
+    return
+
+  @loadAll: (callback, async = @async) =>
+    doLoad = =>
+      list = $.jStorage.get @STORAGE_NAMESPACE
+      @data_store = list or []
+      @reindex callback, async
+    if async then setTimeout(doLoad, @async_timeing) else doLoad()
+    return
 
   @count: => @data_store.length
 
-  @reindex: =>
-    @indexes = {}
-    @indexes[note.id] = index for note, index in @data_store
-    @indexes
+  @reindex: (callback, async = @async)  =>
+    doIndex = =>
+      @indexes = {}
+      @indexes[note.id] = index for note, index in @data_store
+      callback?(@indexes)
+    if async then setTimeout(doIndex, @async_timing) else doIndex()
+    return
 
   @findAll: => @data_store
 

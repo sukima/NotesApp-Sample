@@ -23,8 +23,10 @@ class NotesApp
     true
 
   @init: =>
-    initPageViews()
-    NoteModel.loadAll()
-    @controller = new @
+    doneLoading = =>
+      initPageViews()
+      @controller = new @
+    # For initializing the app this should be done synchronously
+    NoteModel.loadAll doneLoading, false
 
 module.exports = NotesApp
