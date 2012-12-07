@@ -11,8 +11,12 @@
   <script type="text/javascript" charset="utf-8">
     for(var key in specs.modules) specs(key);
   </script>
+  <style type="text/css">
+    .ui-page, .ui-loader { display: none; }
+  </style>
 </head>
 <body>
+  <div data-role="page"></div>
   <script type="text/javascript">
     jasmine.getEnv().addReporter(new jasmine.TrivialReporter());
     window.onload = function(){
