@@ -3,13 +3,7 @@ Note = require("NoteModel")
 $ = jQuery
 
 class IndexView extends View
-  constructor: ->
-    super
-    @notes = Note.findAll()
   render: ->
-    console.log(@notes);
-    console.log(@notes[0]);
-    console.log(@notes[0].briefNarrative());
     super
     @element.children("ul").listview()
   template: """
