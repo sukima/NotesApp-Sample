@@ -61,10 +61,16 @@ class NoteModel
 
   @loadAll: (callback, async = @async) =>
     doLoad = =>
-      list = $.jStorage.get @STORAGE_NAMESPACE
-      @data_store = []
-      if list? and list.length > 0
-        @data_store.push(new @(data, true)) for data in list
+      @data_store = [
+        new @({title:"test1", narrative: "test 1 narrative"})
+        new @({title:"test2", narrative: "test 2 narrative"})
+        new @({title:"test3", narrative: "test 3 narrative"})
+        new @({title:"test4", narrative: "test 4 narrative"})
+      ]
+      # list = $.jStorage.get @STORAGE_NAMESPACE
+      # @data_store = []
+      # if list? and list.length > 0
+        # @data_store.push(new @(data, true)) for data in list
       @reindex callback, async
     if async then setTimeout(doLoad, @async_timeing) else doLoad()
     return
