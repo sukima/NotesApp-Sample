@@ -140,4 +140,7 @@ describe "NoteModel", ->
     it "should allow a default", ->
       len = @note.narrative.length
       expect( @note.briefNarrative().length <= len ).toBeTruthy()
+    it "should return empty string if narrative was empty", ->
+      n = new NoteModel
+      expect( n.briefNarrative() ).toBe ""
       
