@@ -4,11 +4,12 @@ $ = jQuery
 class NoteModel
   constructor: (options = {}, rebuild = false) ->
     unless rebuild
+      date = new Date()
       @title = options.title or ""
       @narrative = options.narrative or ""
-      @created_on = new Date()
+      @created_on = date.getTime()
       @updated_at = @created_on
-      @id = "#{@created_on.getTime()}#{getRandomInt(0,100)}"
+      @id = "#{@created_on}#{getRandomInt(0,100)}"
       @isNew = true
     else
       unless options.id? and options.title? and options.narrative? and options.created_on? and options.updated_at?
@@ -17,7 +18,8 @@ class NoteModel
       @isNew = false
       
   save: ->
-    @updated_at = new Date()
+    date = new Date()
+    @updated_at = date.getTime()
     if @isNew
       @isNew = false
       NoteModel.data_store.push @
@@ -26,7 +28,7 @@ class NoteModel
   destroy: ->
     return if @isNew
     NoteModel.destroyNote @id
-  briefNarrative: (size = 25) ->
+  briefNarrative: (size = 25) =>
     return "" if size <= 0
     return @narrative if size >= @narrative.length
     size = size - 3 unless size <= 3
