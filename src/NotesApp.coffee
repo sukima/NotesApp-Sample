@@ -19,7 +19,7 @@ class NotesApp
   onPageChange: (event, data) ->
     pageID = data.toPage.attr('id')
     view = page_views[pageID].view
-    view?.render notes: NoteModel.findAll()
+    view?.render NoteModel.findAll()
     true
 
   @init: =>
