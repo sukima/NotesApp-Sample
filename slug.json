@@ -6,6 +6,6 @@
     "./lib/jquery.js",
     "./lib/jquery.mobile.js",
     "./lib/jstorage.js",
-    "./lib/mustache.js"
+    "./lib/handlebars.js"
   ]
 }
