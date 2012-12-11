@@ -15,7 +15,8 @@ class IndexView extends View
     return ""
   @formatGroupDate: (date) ->
     d = new Date(date)
-    "#{d.getMonth()+1}/#{d.getDate()}/#{d.getFullYear()}"
+    # "#{d.getMonth()+1}/#{d.getDate()}/#{d.getFullYear()}"
+    d.toDateString()
   render: (@notes) ->
     super @
     @element.children("ul").listview()
