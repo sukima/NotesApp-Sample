@@ -8,7 +8,11 @@ page_views =
     selector: "#notes-list-content"
     data: ->
       notes = $.extend [], NoteModel.findAll() # clone the array
-      notes.sort (a,b) -> (a.updated_at - b.updated_at)
+      ## http://jsbin.com/igijuz/10/edit
+      notes.sort (a,b) ->
+        if a.updated_at < b.updated_at then return 1
+        else if a.updated_at is b.updated_at then return 0
+        else return -1
       notes
 
 initPageViews = ->
