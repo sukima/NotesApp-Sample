@@ -40,8 +40,15 @@ module.exports = NotesApp
 #
 # Called from the console to erase and load a set of test data.
 window.createTestData = ->
+  count = 0
+  buildNextNote = ->
+    if count < 10
+      n = new NoteModel title: "Test #{count}", narrative: "Test Narrative #{count}"
+      n.save()
+      count++
+      setTimeout buildNextNote, 100
+    else
+      console.log "Done."
   NoteModel.clearAll()
-  for i in [1..10]
-    n = new NoteModel title: "Test #{i}", narrative: "Test Narrative #{i}"
-    n.save()
-  NoteModel.findAll()
+  buildNextNote()
+  console.log  "Processing..."
