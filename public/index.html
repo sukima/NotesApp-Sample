@@ -12,6 +12,8 @@
     </script>
   </head>
   <body>
+
+    <!-- Index Page -->
     <div data-role="page" id="notes-list-page" data-title="My Notes">
       <div data-role="header" data-position="fixed">
         <h1>My Notes</h1>
@@ -19,6 +21,28 @@
       </div>
       <div data-role="content" id="notes-list-content"></div>
     </div>
+
+    <!-- Edit Page -->
+    <div id="notes-editor-page" data-role="page" data-title="Edit Note">
+      <div data-role="header" data-position="fixed">
+        <a href="#notes-list-page" data-icon="back" data-rel="back">Cancel</a>
+        <h1>Edit Note</h1>
+        <a id="save-note-button" href="" data-theme="b" data-icon="check">Save</a>
+      </div>
+      <div data-role="content" id="note-editor-content">
+        <form action="#" method="post" id="note-editor-form">
+          <label for="note-title-editor">Title:</label>
+          <input type="text" name="note-title-editor" id="note-title-editor" value="" />
+          <label for="note-narrative-editor">Narrative:</label>
+          <textarea name="note-narrative-editor" id="note-narrative-editor"></textarea>
+        </form>
+      </div>
+      <div data-role="footer" data-position="fixed" class="ui-bar">
+        <a id="delete-note-button" data-icon="delete" data-transition="slideup" data-rel="dialog">Delete</a>
+      </div>
+    </div>
+  </div>
+
   </body>
 </html>
 
