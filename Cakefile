@@ -3,8 +3,6 @@
 fs = require 'fs'
 
 CLEAN_FILES = [
-  'docs/cryptoPage.html'
-  'docs/docco.css'
   'application.js'
   'application.css'
 ]
@@ -13,7 +11,6 @@ unless fs.existsSync "./node_modules/"
   throw "Missing node_modules. Have you run 'npm install .' yet?"
 
 task 'build', 'Build public/ from src/', ->
-  invoke 'docs'
   coffee = spawn 'hem', ['build']
   coffee.stderr.on 'data', (data) ->
     process.stderr.write data.toString()
@@ -37,13 +34,19 @@ task 'server', 'Spawn a server at http://0.0.0.0:9294/', ->
     print data.toString()
 
 task 'docs', 'Build the documentation with docco', ->
-  coffee = spawn 'docco', ['-o', 'public/docs', 'src/*.coffee']
+  coffee = spawn 'docco', ['-o', 'docs', 'src/*.coffee']
   coffee.stderr.on 'data', (data) ->
     process.stderr.write data.toString()
   coffee.stdout.on 'data', (data) ->
     print data.toString()
 
 task 'clean', 'Clean up all generatd files', ->
+  doc_files = fs.readdirSync("docs")
+  for file in doc_files
+    file = "docs/#{file}"
+    if fs.existsSync file
+      fs.unlink file
+      console.log "Removed #{file}"
   for file in CLEAN_FILES
     file = "public/#{file}"
     if fs.existsSync file
