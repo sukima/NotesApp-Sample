@@ -1,5 +1,4 @@
 View = require("View")
-Note = require("NoteModel")
 $ = jQuery
 $h = Handlebars
 

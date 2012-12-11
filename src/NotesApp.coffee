@@ -6,6 +6,10 @@ page_views =
   "notes-list-page":
     class: IndexView
     selector: "#notes-list-content"
+    data: ->
+      notes = $.extend [], NoteModel.findAll() # clone the array
+      notes.sort (a,b) -> (a.updated_at - b.updated_at)
+      notes
 
 initPageViews = ->
   page.view = new page.class(page.selector) for id, page of page_views
@@ -18,8 +22,8 @@ class NotesApp
 
   onPageChange: (event, data) ->
     pageID = data.toPage.attr('id')
-    view = page_views[pageID].view
-    view?.render NoteModel.findAll()
+    page_view = page_views[pageID]
+    page_view.view?.render(page_view.data())
     true
 
   @init: =>
