@@ -4,7 +4,7 @@ describe "Utils libary", ->
   Utils = require "Utils"
 
   describe "getRandomInt", ->
-    it "should return an integer", ->
+    it "should return an integer within range", ->
       num = Utils.getRandomInt(0,100)
       expect( typeof num ).toBe "number"
       expect( num >= 0 ).toBeTruthy()
