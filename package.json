@@ -1,6 +1,6 @@
 {
-  "name": "CryptoPage",
-  "version": "0.0.1",
+  "name": "NotesApp",
+  "version": "1.0.0",
   "dependencies": { 
     "coffee-script": "~1.3.0",
     "serveup": "~0.0.4",
