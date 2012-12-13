@@ -108,8 +108,8 @@ describe "NoteModel", ->
       expect( newNote.id ).toBe test.id
       expect( newNote.title ).toBe test.title
       expect( newNote.narrative ).toBe test.narrative
-      expect( newNote.created_on.getTime() ).toBe test.created_on.getTime()
-      expect( newNote.updated_at.getTime() ).toBe test.updated_at.getTime()
+      expect( newNote.created_on ).toBe test.created_on
+      expect( newNote.updated_at ).toBe test.updated_at
       expect( newNote.isNew ).not.toBeTruthy()
     it "throw an error with bad reconstruction", ->
       shouldThrowError = -> new NoteModel {}, true
