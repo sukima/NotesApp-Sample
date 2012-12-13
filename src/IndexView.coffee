@@ -19,6 +19,7 @@ class IndexView extends View
     d.toDateString()
   render: (@notes) ->
     super @
+    @last_updated_at = null
     @element.children("ul").listview()
   template: """
             <ul class="notes-index-list" data-role="listview">
