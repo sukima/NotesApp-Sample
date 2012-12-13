@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="application.css" />
     <script src="application.js" type="text/javascript"></script>
     <script type="text/javascript">
-      $(document).bind("pageinit", require("NotesApp").init);
+      $(document).one("pageinit", require("NotesApp").init);
     </script>
   </head>
   <body>
@@ -31,6 +31,7 @@
       </div>
       <div data-role="content" id="note-editor-content">
         <form action="#" method="post" id="note-editor-form">
+          <input id="note-id" name="note-id" type="hidden" value="" />
           <label for="note-title-editor">Title:</label>
           <input type="text" name="note-title-editor" id="note-title-editor" value="" />
           <label for="note-narrative-editor">Narrative:</label>
