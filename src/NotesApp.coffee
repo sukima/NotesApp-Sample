@@ -1,50 +1,48 @@
 $ = jQuery
 NoteModel = require("NoteModel")
-IndexView = require("IndexView")
+
+routes =
+  "#notes-list-page":
+    events: "bs"
+    handler: "index"
+  "#notes-editor-page":
+    events: "bs"
+    handler: "edit"
 
 page_views =
-  "notes-list-page":
-    class: IndexView
+  index:
+    class: require("IndexView")
     selector: "#notes-list-content"
-    data: (url) ->
-      notes = $.extend [], NoteModel.findAll() # clone the array
-      ## http://jsbin.com/igijuz/10/edit
-      notes.sort (a,b) ->
-        if a.updated_at < b.updated_at then return 1
-        else if a.updated_at is b.updated_at then return 0
-        else return -1
-      notes
-  "notes-editor-page":
+  edit:
     class: Object
     selector: "#notes-editor-content"
-    data: (url) ->
-      console.log(url)
 
-initPageViews = ->
-  page.view = new page.class(page.selector) for id, page of page_views
-  page_views
+NotesApp =
+  init: ->
+    #/ A callback to finish initalization. This will create the views. It is
+    #/ done in a callback so that the stored data is available before a View is
+    #/ constructed (just in case).
+    initPageViews = ->
+      page.view = new page.class(page.selector) for action, page of page_views
+      page_views
+    #/ Instanciate a router.
+    NotesApp.router = new $.mobile.Router(routes, NotesApp)
+    #/ For initializing the app this should be done synchronously
+    NoteModel.loadAll initPageViews, false
 
-class NotesApp
-  constructor: ->
-    d = $(document)
-    d.bind "pagechange", @onPageChange
+  index: (eventType, matchObj, ui, page, evt) ->
+    notes = $.extend [], NoteModel.findAll() # clone the array
+    #/ http://jsbin.com/igijuz/10/edit
+    notes.sort (a,b) ->
+      if a.updated_at < b.updated_at then return 1
+      else if a.updated_at is b.updated_at then return 0
+      else return -1
+    page_views.index.view.render(notes)
 
-  onPageChange: (event, data) ->
-    pageID = data.toPage.attr('id')
-    page_view = page_views[pageID]
-    context = page_view.data(data.options.dataUrl)
-    page_view.view?.render(context)
-    true
-
-  @init: =>
-    ## Define a callback for the loadAll method.
-    doneLoading = =>
-      initPageViews()
-      @controller = new @
-    ## For initializing the app this should be done synchronously
-    NoteModel.loadAll doneLoading, false
+  edit: (eventType, matchObj, ui, page, evt) -> console.log("#edit")
 
 module.exports = NotesApp
+
 
 # Utility function used for debugging and testing
 #
