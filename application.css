@@ -1,0 +1,9 @@
+@import 'styles/jquery-mobile/index.css';
+.no-notes {
+  text-align: center;
+  margin: 50px auto;
+}
+.list-item-narrative {
+  color: #666;
+  font-weight: normal;
+}
