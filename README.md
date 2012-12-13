@@ -34,4 +34,4 @@ Demo available at http://sukima.github.com/NotesApp-Sample/
       0. USAGE of any material, in whole or in part, comes WITHOUT WARRANTY.
      
       1. To the extent permitted by applicable law, This license offers no
-         claim for FITNESS FOR PURPOSE.
+         claim of FITNESS FOR PURPOSE.
