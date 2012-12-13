@@ -40,6 +40,8 @@ addAppEvents = ->
   return
 
 NotesApp =
+  currentNote: null
+
   init: ->
     #/ A callback to finish initalization.
     loadAllDone = ->
@@ -60,16 +62,24 @@ NotesApp =
     page_views.index.view.render(notes)
 
   newNote: (eventType, matchObj, ui, page, evt) ->
-    note = new Note()
-    page_views.editNote.view.render(note)
+    NotesApp.currentNote = new Note()
+    page_views.editNote.view.render(NotesApp.currentNote)
 
   editNote: (eventType, matchObj, ui, page, evt) ->
-    note = Note.find(matchObj[1])
-    page_views.editNote.view.render(note)
+    NotesApp.currentNote = Note.find(matchObj[1])
+    page_views.editNote.view.render(NotesApp.currentNote)
 
   saveNote: ->
+    note = NotesApp.currentNote
+    return false unless note?
+    note.title = $("#note-title-editor").val()
+    note.narrative = $("#note-narrative-editor").val()
+    $.mobile.changePage("#notes-list-page") if note.save()
 
   deleteNote: ->
+    note = NotesApp.currentNote
+    return false unless note?
+    $.mobile.changePage("#notes-list-page") if note.destroy()
 
 module.exports = NotesApp
 
