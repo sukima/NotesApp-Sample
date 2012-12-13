@@ -4,6 +4,7 @@
   "dependencies": [],
   "libs": [
     "./lib/jquery.js",
+    "./lib/jquery.mobile.router.js",
     "./lib/jquery.mobile.js",
     "./lib/jstorage.js",
     "./lib/handlebars.js"
