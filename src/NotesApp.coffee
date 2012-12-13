@@ -33,6 +33,11 @@ initPageViews = ->
 # Defines any events you want the app to handle that is not part of the
 # routing.
 addAppEvents = ->
+  #/ Handle the save buton
+  $("#save-note-button").click(NotesApp.saveNote)
+  #/ Handle the delete button
+  $("#delete-note-button").click(NotesApp.deleteNote)
+  return
 
 NotesApp =
   init: ->
@@ -61,6 +66,10 @@ NotesApp =
   editNote: (eventType, matchObj, ui, page, evt) ->
     note = Note.find(matchObj[1])
     page_views.editNote.view.render(note)
+
+  saveNote: ->
+
+  deleteNote: ->
 
 module.exports = NotesApp
 
