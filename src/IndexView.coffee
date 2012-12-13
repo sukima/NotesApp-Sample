@@ -27,7 +27,7 @@ class IndexView extends View
                 <li data-role="list-divider">{{formatGroupDate updated_at}}</li>
                 {{/newGroup}}
                 <li>
-                  <a href="#note-narrative-page?noteId={{id}}">
+                  <a href="#notes-editor-page?noteId={{id}}">
                     <div>{{title}}</div>
                     <div class="list-item-narrative">{{briefNarrative}}</div>
                   </a>

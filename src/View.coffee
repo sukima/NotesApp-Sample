@@ -2,6 +2,8 @@ $  = jQuery
 $h = Handlebars
 
 class View
+  ## TODO: Make this support more than one template per view to handle many
+  ## elements.
   template: "Missing Template"
   constructor: (element) ->
     @element = $(element)
