@@ -66,6 +66,8 @@ describe "NoteModel", ->
       NoteModel.indexes = {}
       @note.save()
       expect( NoteModel.indexes[@note.id] ).toBeDefined()
+    it "should return true / false", ->
+      expect( @note.save() ).toBeTruthy()
 
   describe "destroy", ->
     beforeEach -> @note = new NoteModel
@@ -85,6 +87,9 @@ describe "NoteModel", ->
       id = @note.id
       @note.destroy()
       expect( NoteModel.indexes[id] ).not.toBeDefined()
+    it "should return true or false", ->
+      @note.save()
+      expect( @note.destroy() ).toBeTruthy()
 
   describe "constructor", ->
     it "should have sane defaults", ->

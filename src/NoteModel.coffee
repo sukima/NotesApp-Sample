@@ -26,7 +26,7 @@ class NoteModel
       NoteModel.indexes[@id] = NoteModel.data_store.length - 1
     NoteModel.saveAll()
   destroy: ->
-    return if @isNew
+    return false if @isNew
     NoteModel.destroyNote @id
   briefNarrative: (size = 25) =>
     return "" if size <= 0
@@ -49,6 +49,7 @@ class NoteModel
       $.jStorage.set @STORAGE_NAMESPACE, @data_store
       callback?(@data_store)
     if async then setTimeout(doSave, @async_timeing) else doSave()
+    true
 
   @clearAll: (callback, async = @async) =>
     @data_store = []
@@ -91,6 +92,6 @@ class NoteModel
     ret = @data_store.splice index, 1
     @saveAll()
     @reindex()
-    ret
+    true
 
 module.exports = NoteModel
