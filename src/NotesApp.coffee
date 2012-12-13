@@ -40,7 +40,6 @@ NotesApp =
     loadAllDone = ->
       initPageViews()
       addAppEvents()
-      NotesApp.index()
     #/ Instanciate a router.
     NotesApp.router = new $.mobile.Router(routes, NotesApp)
     #/ For initializing the app this should be done synchronously
