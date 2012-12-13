@@ -1,5 +1,5 @@
 $ = jQuery
-NoteModel = require("NoteModel")
+Note = require("NoteModel")
 IndexView = require("IndexView")
 EditView = require("EditView")
 
@@ -44,10 +44,10 @@ NotesApp =
     #/ Instanciate a router.
     NotesApp.router = new $.mobile.Router(routes, NotesApp)
     #/ For initializing the app this should be done synchronously
-    NoteModel.loadAll loadAllDone, false
+    Note.loadAll loadAllDone, false
 
   index: (eventType, matchObj, ui, page, evt) ->
-    notes = $.extend [], NoteModel.findAll() # clone the array
+    notes = $.extend [], Note.findAll() # clone the array
     #/ Example from: http://jsbin.com/igijuz/10/edit
     notes.sort (a,b) ->
       if a.updated_at < b.updated_at then return 1
@@ -60,7 +60,7 @@ NotesApp =
     page_views.editNote.view.render(note)
 
   editNote: (eventType, matchObj, ui, page, evt) ->
-    note = NoteModel.find(matchObj[1])
+    note = Note.find(matchObj[1])
     page_views.editNote.view.render(note)
 
 module.exports = NotesApp
@@ -73,12 +73,12 @@ window.createTestData = ->
   count = 0
   buildNextNote = ->
     if count < 10
-      n = new NoteModel title: "Test #{count}", narrative: "Test Narrative #{count}"
+      n = new Note title: "Test #{count}", narrative: "Test Narrative #{count}"
       n.save()
       count++
       setTimeout buildNextNote, 100
     else
       console.log "Done."
-  NoteModel.clearAll()
+  Note.clearAll()
   buildNextNote()
   console.log  "Processing..."
