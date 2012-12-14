@@ -18,6 +18,7 @@ task 'build', 'Build public/ from src/', ->
     print data.toString()
   coffee.on 'exit', (code) ->
     callback?() if code is 0
+  # make a cache.manifest
 
 task 'watch', 'Watch src/ for changes', ->
   coffee = spawn 'hem', ['watch']

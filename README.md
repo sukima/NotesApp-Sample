@@ -8,6 +8,10 @@ This is the same tutorial found at [this blog site][2] only converted to work in
 
 Demo available at http://sukima.github.com/NotesApp-Sample/
 
+You can also scan the following QR-Code to run and install on your mobile device:
+
+![QR-Code to Demo site](http://sukima.github.com/NotesApp-Sample/images/NotesApp-Sample-qrcode.png)
+
 [1]: https://github.com/azicchetti/jquerymobile-router
 [2]: http://miamicoder.com/2011/building-a-jquery-mobile-application-part-1/
 
