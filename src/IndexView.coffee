@@ -40,7 +40,7 @@ class IndexView extends View
                 </li>
               {{/notes}}
             </ul>
-            {{^notes}}<div class="no-notes">Create a new note by clicking the <a href="#note-editor-page">new</a> button.</div>{{/notes}}
+            {{^notes}}<div class="no-notes">Create a new note by clicking the <a href="#notes-editor-page">new</a> button.</div>{{/notes}}
             """
 
 module.exports = IndexView
