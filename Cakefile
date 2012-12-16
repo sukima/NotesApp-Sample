@@ -5,12 +5,22 @@ fs = require 'fs'
 CLEAN_FILES = [
   'application.js'
   'application.css'
+  'cache.manifest'
 ]
 
 unless fs.existsSync "./node_modules/"
   throw "Missing node_modules. Have you run 'npm install .' yet?"
 
+task 'manifest', 'Rebuild the cache.manifest file', ->
+  fs.readFile "public/cache.manifest.template", (err, data) ->
+    throw err if err
+    hash = (new Date()).getTime()
+    data = data.toString().replace(/{{unique_id}}/, hash)
+    fs.writeFile "public/cache.manifest", data, (err) ->
+      throw err if err
+
 task 'build', 'Build public/ from src/', ->
+  invoke 'manifest'
   coffee = spawn 'hem', ['build']
   coffee.stderr.on 'data', (data) ->
     process.stderr.write data.toString()
@@ -18,7 +28,6 @@ task 'build', 'Build public/ from src/', ->
     print data.toString()
   coffee.on 'exit', (code) ->
     callback?() if code is 0
-  # make a cache.manifest
 
 task 'watch', 'Watch src/ for changes', ->
   coffee = spawn 'hem', ['watch']
