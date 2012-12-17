@@ -1,12 +1,14 @@
 {
   "name": "NotesApp-Sample",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "A proof-of-concept note taking app.",
   "launch_path": "/NotesApp-Sample/index.html",
   "appcache_path": "/NotesApp-Sample/cache.manifest",
   "type": "web",
   "icons": {
-    "128": "/NotesApp-Sample/images/logo_128.png"
+    "256": "/NotesApp-Sample/images/notepad_256.png"
+    "128": "/NotesApp-Sample/images/notepad_128.png"
+    "57": "/NotesApp-Sample/images/notepad_57.png"
   },
   "developer": {
     "name": "Devin Weaver",
