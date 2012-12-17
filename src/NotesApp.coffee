@@ -4,6 +4,7 @@
 # License, Version 3, as published by Devin Weaver. See
 # http://tritarget.org/wywtpl/COPYING for more details.
 $ = jQuery
+BookmarkBubble = require("BookmarkBubble")
 Note = require("NoteModel")
 IndexView = require("IndexView")
 EditView = require("EditView")
@@ -52,6 +53,8 @@ NotesApp =
     loadAllDone = ->
       initPageViews()
       addAppEvents()
+      bubble = new BookmarkBubble()
+      bubble.showDelayed()
     #/ Instanciate a router.
     NotesApp.router = new $.mobile.Router(routes, NotesApp)
     #/ For initializing the app this should be done synchronously
