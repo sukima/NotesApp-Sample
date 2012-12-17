@@ -7,6 +7,7 @@
     "./lib/jquery.mobile.router.js",
     "./lib/jquery.mobile.js",
     "./lib/jstorage.js",
-    "./lib/handlebars.js"
+    "./lib/handlebars.js",
+    "./lib/bookmark_bubble.js"
   ]
 }
