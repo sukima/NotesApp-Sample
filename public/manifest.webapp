@@ -1,6 +1,6 @@
 {
   "name": "NotesApp-Sample",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A proof-of-concept note taking app.",
   "launch_path": "/NotesApp-Sample/index.html",
   "appcache_path": "/NotesApp-Sample/cache.manifest",
