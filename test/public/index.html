@@ -4,24 +4,46 @@
   <title>Jasmine Test Runner</title>
   <link rel="stylesheet" type="text/css" href="/test/lib/jasmine.css">
   <script type="text/javascript" src="/test/lib/jasmine.js"></script>
-  <script type="text/javascript" src="/test/lib/jasmine.html.js"></script>
+  <script type="text/javascript" src="/test/lib/jasmine-html.js"></script>
 
-  <script src="/application.js" type="text/javascript" charset="utf-8"></script>
-  <script src="/test/specs.js" type="text/javascript" charset="utf-8"></script>
-  <script type="text/javascript" charset="utf-8">
-    for(var key in specs.modules) specs(key);
-  </script>
   <style type="text/css">
     .ui-page, .ui-loader { display: none; }
   </style>
+  <script src="/application.js" type="text/javascript" charset="utf-8"></script>
+  <script src="/test/specs.js" type="text/javascript" charset="utf-8"></script>
+  <script type="text/javascript" charset="utf-8">
+    (function() {
+      // Load all specs
+      for(var key in specs.modules) specs(key);
+
+      // Setup jasmine envirnment
+      var jasmineEnv = jasmine.getEnv();
+      jasmineEnv.updateInterval = 1000;
+
+      var htmlReporter = new jasmine.HtmlReporter();
+
+      jasmineEnv.addReporter(htmlReporter);
+
+      jasmineEnv.specFilter = function(spec) {
+        return htmlReporter.specFilter(spec);
+      };
+
+      var currentWindowOnload = window.onload;
+
+      window.onload = function() {
+        if (currentWindowOnload) {
+          currentWindowOnload();
+        }
+        execJasmine();
+      };
+
+      function execJasmine() {
+        jasmineEnv.execute();
+      }
+
+    })();
+  </script>
 </head>
 <body>
-  <div data-role="page"></div>
-  <script type="text/javascript">
-    jasmine.getEnv().addReporter(new jasmine.TrivialReporter());
-    window.onload = function(){
-      jasmine.getEnv().execute();
-    };
-  </script>
 </body>
 </html>
